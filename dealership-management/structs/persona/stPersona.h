@@ -1,0 +1,17 @@
+#ifndef STPERSONA_H_INCLUDED
+#define STPERSONA_H_INCLUDED
+
+#define MAX_CARACT_PERSONA_STANDARD 20
+#define MAX_CARACT_PERSONA_DIRECCION 30
+#define MAX_CARACT_PERSONA_NOMBRE 30
+
+typedef struct stPersona {
+	char dni[MAX_CARACT_PERSONA_STANDARD];
+	char nombre[MAX_CARACT_PERSONA_NOMBRE];
+	char telefono[MAX_CARACT_PERSONA_STANDARD];
+	char dirección[MAX_CARACT_PERSONA_DIRECCION];
+	char rol[MAX_CARACT_PERSONA_STANDARD]; //comprador o vendedor
+} Persona;
+
+
+#endif // STPERSONA_H_INCLUDED
