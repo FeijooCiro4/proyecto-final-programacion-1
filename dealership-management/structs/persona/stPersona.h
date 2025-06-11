@@ -7,10 +7,9 @@
 
 typedef struct stPersona {
 	char dni[MAX_CARACT_PERSONA_STANDARD];
-	char nombre[MAX_CARACT_PERSONA_NOMBRE];
+	char nombrePersona[MAX_CARACT_PERSONA_NOMBRE];
 	char telefono[MAX_CARACT_PERSONA_STANDARD];
-	char dirección[MAX_CARACT_PERSONA_DIRECCION];
-	char rol[MAX_CARACT_PERSONA_STANDARD]; //comprador o vendedor
+	char direccion[MAX_CARACT_PERSONA_DIRECCION];
 } Persona;
 
 
