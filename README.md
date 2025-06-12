@@ -1,4 +1,4 @@
- # Documentación de proyecto.
+# Documentación de proyecto.
 ## Diario de desarrollo.
 ### Miércoles 04/06/2025
 * Inicialización del repositorio del proyecto de manera local con ´git´ y de manera remota con ´github´.
@@ -19,9 +19,16 @@
 ### Miércoles 11/06/2025
 * Desarrollo completado del login con validaciones de datos, Se ha completado ambas partes del login de forma óptima y funcional; inicio y registro de sesión:
     * Si se intenta iniciar sesión sin que el archivo exista, no hayan datos en el mismo, o los ingresados no existan o no sean válidos, se vuelve al menú del login con un mensaje de error.
-    * Si se inicia sesion con datos existentes en el archivo y válidos on respect a estos, se entrará a una pantalla que solo dirá "Bienvenido!" para luego volver al menu del login.
-    * Si se registra sesion con estos problemas:
+    * Si se inicia sesión con datos existentes en el archivo y válidos con respecto a estos, se entrará a una pantalla que solo dirá "Bienvenido!" para luego volver al menú del login.
+    * Si se registra sesión con estos problemas:
         * id repetido -> se pedirá al usuario volver a ingresar ese dato.
         * nombre de usuario repetido -> se pedirá al usuario ingresar un nombre distinto.
-* Commit y despliege al repositorio remoto.
+* Commit y despliegue al repositorio remoto.
+### Jueves 12/06/2025
+* Corrección de errores: 
+    * Validación de entrada de enteros.
+    * Menú del login ligeramente optimizado.
+    * Entorno del ´main´ preparado para siguientes modificaciones.
+    * Se valida si hay un usuario que inició sesión (esto para acceder a las futuras funciones del programa que deberán ser desarrolladas).
+* Commit y despliegue al repositorio remoto.
 <!-- ## Funciones del proyecto.  -->

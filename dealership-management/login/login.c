@@ -1,11 +1,10 @@
 #include <stdio.h>
 #include "login.h"
 #include "../utils/utils.h"
-#include "../structs/usuario/stUsuario.h"
 
 static const char* ARCHIVO_USUARIOS = "usuarios.bin";
 
-extern int iniciarSesion(){
+extern int iniciarSesion(Usuario *us){
     FILE* fp = fopen(ARCHIVO_USUARIOS, "rb");
 
     if(fp == NULL){
@@ -31,6 +30,8 @@ extern int iniciarSesion(){
         printf("La contrasenia ingresada no es valida.\n");
         return 0;
     }
+
+    *us = buscarUsuario(ARCHIVO_USUARIOS, nombreUsuario);
 
     fclose(fp);
     return 1;

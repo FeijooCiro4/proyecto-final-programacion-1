@@ -26,6 +26,7 @@ static inline int scanInt(void){
     int aux;
 
     if(scanf("%d", &aux) != 1){
+        limpiarBufferDeEntrada();
         return -1;
     }
     limpiarBufferDeEntrada();

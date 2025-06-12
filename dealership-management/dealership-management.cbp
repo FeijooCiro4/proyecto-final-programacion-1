@@ -31,9 +31,34 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="login/login.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="login/login.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="options/options.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="options/options.h" />
+		<Unit filename="prints/prints.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="prints/prints.h" />
+		<Unit filename="structs/autoArchivo/stAutoArchivo.h" />
+		<Unit filename="structs/auto/stAuto.h" />
+		<Unit filename="structs/fecha/stFecha.h" />
+		<Unit filename="structs/persona/stPersona.h" />
+		<Unit filename="structs/usuario/stUsuario.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="structs/usuario/stUsuario.h" />
+		<Unit filename="structs/venta/stVenta.h" />
+		<Unit filename="utils/utils.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="utils/utils.h" />
 		<Extensions />
 	</Project>
 </CodeBlocks_project_file>

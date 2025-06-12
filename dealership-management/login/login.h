@@ -1,7 +1,9 @@
 #ifndef LOGIN_H_INCLUDED
 #define LOGIN_H_INCLUDED
 
-extern int iniciarSesion(void);
+#include "../structs/usuario/stUsuario.h"
+
+extern int iniciarSesion(Usuario *us);
 extern int registroSesion(void);
 
 #endif // LOGIN_H_INCLUDED

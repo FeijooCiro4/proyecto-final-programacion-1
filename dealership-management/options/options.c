@@ -3,18 +3,17 @@
 #include "../utils/utils.h"
 #include "../login/login.h"
 
-void opcLogin(int opc){
+int opcLogin(Usuario *us, int opc){
+    int val=0;
+
     switch(opc){
     case 1:
         system("cls");
-        if(iniciarSesion()){
-            system("cls");
-            printf("Bienvenido!\n\n");
+        if(iniciarSesion(us)){
+            val = 1;
         } else {
-            limpiarPantalla();
-            printf("Error en el inicio de sesion.\n\n");
+            val = 0;
         }
-        limpiarPantalla();
         break;
     case 2:
         system("cls");
@@ -24,12 +23,14 @@ void opcLogin(int opc){
         limpiarPantalla();
         break;
     case 0:
-        limpiarPantalla();
-        printf("Gracias por probar el programa!\n");
+        val = 0;
         break;
     default:
+        val = 0;
         printf("Error: La opcion que ha ingresado no es valida...\n");
         limpiarPantalla();
         break;
     }
+
+    return val;
 }

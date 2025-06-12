@@ -97,3 +97,29 @@ int validarContrasenia(char* archivo, char* nombreUsuario, char* contrasenia){
 
     return 1;
 }
+
+Usuario buscarUsuario(char* archivo, char* nombreUsuario){
+    FILE* fp = fopen(archivo, "rb");
+
+    if(fp == NULL){
+        perror("Error al abrir el archivo de usuarios");
+        return;
+    }
+
+    Usuario usAux;
+
+    while(fread(&usAux, sizeof(Usuario), 1, fp) == 1){
+        if(strcmp(usAux.nombreUsuario, nombreUsuario) == 0){
+            fclose(fp);
+            return usAux;
+        }
+    }
+}
+
+char* nombreRolUsuario(Usuario us){
+    if(us.rol == 'c'){
+        return "comprador";
+    } else if (us.rol == 'v'){
+        return "vendedor";
+    }
+}
