@@ -21,3 +21,18 @@ int scanString(char* cadena, int maxCaract){
 
     return strlen(cadena);
 }
+
+bool esDniValido(const char* dni){
+    if(dni == NULL) return false;
+
+    size_t longitud = strlen(dni);
+    if(longitud != 8) return false;
+
+    for(int i=0; i<longitud; i++){
+        if(!isdigit(dni[i])){
+            return false;
+        }
+    }
+
+    return true;
+}

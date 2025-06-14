@@ -2,8 +2,10 @@
 #define UTILS_H_INCLUDED
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
+#include <stdbool.h>
 
 static inline void limpiarBufferDeEntrada(void){
     int c;
@@ -43,5 +45,6 @@ static inline char scanChar(void){
 
 int esEnteroPositivo(int num);
 int scanString(char* cadena, int maxCaract);
+bool esDniValido(const char* dni);
 
 #endif // UTILS_H_INCLUDED

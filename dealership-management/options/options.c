@@ -1,18 +1,19 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "options.h"
 #include "../utils/utils.h"
 #include "../login/login.h"
 
-int opcLogin(Usuario *us, int opc){
-    int val=0;
+bool opcLogin(Usuario *us, int opc){
+    bool val=false;
 
     switch(opc){
     case 1:
         system("cls");
         if(iniciarSesion(us)){
-            val = 1;
+            val = true;
         } else {
-            val = 0;
+            val = false;
         }
         break;
     case 2:
@@ -23,10 +24,10 @@ int opcLogin(Usuario *us, int opc){
         limpiarPantalla();
         break;
     case 0:
-        val = 0;
+        val = false;
         break;
     default:
-        val = 0;
+        val = false;
         printf("Error: La opcion que ha ingresado no es valida...\n");
         limpiarPantalla();
         break;

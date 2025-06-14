@@ -2,15 +2,17 @@
 #define STUSUARIO_H_INCLUDED
 
 #define MAX_CARACT_USUARIO_STANDARD 20
+#define MAX_CARACT_USUARIO_DNI 8
 
 typedef struct stUsuario {
     int idUsuario;
 	char nombreUsuario[MAX_CARACT_USUARIO_STANDARD];
 	char contrasenia[MAX_CARACT_USUARIO_STANDARD];
-	char rol; //c = comprador o v = vendedor
-	int dniPersona;
+	char rol; //c = comprador o v = vendedor o a = administrador
+	char dniPersona[MAX_CARACT_USUARIO_DNI];
 } Usuario;
 
+Usuario inicializarUsuario(void);
 Usuario ingresarUsuario(char* archivo);
 int idUsuarioUnico(char* archivo, int id);
 int nombreUsuarioUnico(char* archivo, char* nombre);

@@ -31,4 +31,11 @@
     * Entorno del ´main´ preparado para siguientes modificaciones.
     * Se valida si hay un usuario que inició sesión (esto para acceder a las futuras funciones del programa que deberán ser desarrolladas).
 * Commit y despliegue al repositorio remoto.
+### Viernes 13/06/2025
+* Dearrollo de inserción de datos sobre una persona si es que su dni no figura en los datos del archivo.
+* Corrección de errores: 
+    * Validación de dni unico y con digitos exastos.
+    * Optimización del registro de sesión acorde a las necesidades de la inserción de personas.
+    * Código corregido en el inicio de sesión.
+* Commit y despliegue al repositorio remoto.
 <!-- ## Funciones del proyecto.  -->

@@ -1,7 +1,20 @@
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 #include "stUsuario.h"
 #include "../../utils/utils.h"
+
+Usuario inicializarUsuario(void){
+    Usuario us;
+
+    us.idUsuario = 0;
+    us.nombreUsuario[0] = '\0';
+    us.contrasenia[0] = '\0';
+    us.rol = '\0';
+    us.dniPersona[0] = '\0';
+
+    return us;
+}
 
 Usuario ingresarUsuario(char* archivo){
     Usuario us;
@@ -23,14 +36,20 @@ Usuario ingresarUsuario(char* archivo){
     printf("Contrasenia: ");
     scanString(us.contrasenia, MAX_CARACT_USUARIO_STANDARD);
 
-    printf("Rol [Comprador (c) o Vendedor (v)]: ");
+    printf("Rol [Comprador (c) - Vendedor (v)- Administrador (a)]: ");
     us.rol = scanChar();
+    us.rol = tolower(us.rol);
+    while (us.rol != 'c' && us.rol != 'v' && us.rol != 'a') {
+        printf("El rol ingresado es invalido. Ingrese otro: ");
+        us.rol = scanChar();
+        us.rol = tolower(us.rol);
+    }
 
     printf("Ingrese su dni: ");
-    us.dniPersona = scanInt();
-    while (!esEnteroPositivo(us.idUsuario)){
-        printf("El dni ingresado no es valido. Ingrese otro: ");
-        us.dniPersona = scanInt();
+    scanString(us.dniPersona, MAX_CARACT_USUARIO_DNI);
+    while(!esDniValido(us.dniPersona)){
+        printf("El dni ingresado en invalido. Ingrese otro: ");
+        scanString(us.dniPersona, MAX_CARACT_USUARIO_DNI);
     }
 
     return us;
@@ -100,13 +119,12 @@ int validarContrasenia(char* archivo, char* nombreUsuario, char* contrasenia){
 
 Usuario buscarUsuario(char* archivo, char* nombreUsuario){
     FILE* fp = fopen(archivo, "rb");
+    Usuario usAux = inicializarUsuario();
 
     if(fp == NULL){
         perror("Error al abrir el archivo de usuarios");
-        return;
+        return usAux;
     }
-
-    Usuario usAux;
 
     while(fread(&usAux, sizeof(Usuario), 1, fp) == 1){
         if(strcmp(usAux.nombreUsuario, nombreUsuario) == 0){
@@ -114,6 +132,9 @@ Usuario buscarUsuario(char* archivo, char* nombreUsuario){
             return usAux;
         }
     }
+
+    fclose(fp);
+    return usAux;
 }
 
 char* nombreRolUsuario(Usuario us){
@@ -121,5 +142,9 @@ char* nombreRolUsuario(Usuario us){
         return "comprador";
     } else if (us.rol == 'v'){
         return "vendedor";
+    } else if (us.rol == 'a'){
+        return "admin";
     }
+
+    return "desconosido";
 }
