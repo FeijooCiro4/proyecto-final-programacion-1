@@ -31,6 +31,10 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="controllers/ctrAuto.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="controllers/ctrAuto.h" />
 		<Unit filename="login/login.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -46,9 +50,18 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="prints/prints.h" />
-		<Unit filename="structs/autoArchivo/stAutoArchivo.h" />
+		<Unit filename="structs/auto/stAuto.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="structs/auto/stAuto.h" />
+		<Unit filename="structs/auto/stAutoDinamico.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="structs/auto/stAutoDinamico.h" />
 		<Unit filename="structs/fecha/stFecha.h" />
+		<Unit filename="structs/persona/stPersona.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="structs/persona/stPersona.h" />
 		<Unit filename="structs/usuario/stUsuario.c">
 			<Option compilerVar="CC" />

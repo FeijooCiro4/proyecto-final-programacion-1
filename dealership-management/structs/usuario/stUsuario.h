@@ -1,8 +1,9 @@
+#define MAX_CARACT_USUARIO_STANDARD 20
+#define MAX_CARACT_USUARIO_DNI 10
+
 #ifndef STUSUARIO_H_INCLUDED
 #define STUSUARIO_H_INCLUDED
 
-#define MAX_CARACT_USUARIO_STANDARD 20
-#define MAX_CARACT_USUARIO_DNI 8
 
 typedef struct stUsuario {
     int idUsuario;

@@ -1,8 +1,18 @@
+#include <stdio.h>
+
 #ifndef PRINTS_H_INCLUDED
 #define PRINTS_H_INCLUDED
 
-#include <stdio.h>
 
 void printLogin(void);
+
+void printMenuVendedor(void);
+void printMenuVendedorGestAutos(void);
+void printMenuVendedorVistaAutos(void);
+
+/*void printMenuComprador(void);
+void printMenuCompradorGestAutos(void);
+
+void printMenuAdmin(void);*/
 
 #endif // PRINTS_H_INCLUDED

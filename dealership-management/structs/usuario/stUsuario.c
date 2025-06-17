@@ -48,7 +48,7 @@ Usuario ingresarUsuario(char* archivo){
     printf("Ingrese su dni: ");
     scanString(us.dniPersona, MAX_CARACT_USUARIO_DNI);
     while(!esDniValido(us.dniPersona)){
-        printf("El dni ingresado en invalido. Ingrese otro: ");
+        printf("El dni ingresado es invalido. Ingrese otro: ");
         scanString(us.dniPersona, MAX_CARACT_USUARIO_DNI);
     }
 

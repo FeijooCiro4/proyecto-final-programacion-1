@@ -3,6 +3,9 @@
 #include "options.h"
 #include "../utils/utils.h"
 #include "../login/login.h"
+#include "../prints/prints.h"
+#include "../controllers/ctrAuto.h"
+#include "../structs/auto/stAutoDinamico.h"
 
 bool opcLogin(Usuario *us, int opc){
     bool val=false;
@@ -34,4 +37,82 @@ bool opcLogin(Usuario *us, int opc){
     }
 
     return val;
+}
+
+void opcMenuVendedor(char* dniTitular, int opc){
+    int subOpc;
+
+    switch(opc){
+    case 1:
+        do{
+            system("cls");
+            printMenuVendedorGestAutos();
+            subOpc = scanInt();
+            while(!esEnteroPositivo(subOpc)){
+                printf("Error: La opcion que ha ingresado no es valida.\nVuelva a ingresar una opcion: ");
+                subOpc = scanInt();
+            }
+            opcMenuVendedorGestAutos(dniTitular, subOpc);
+        } while(subOpc != 0);
+        break;
+    case 0:
+        printf("\nCerrando sesion...\n");
+        break;
+    default:
+        printf("\nError: La opcion que ha ingresado no es valida.\nVuelva a ingresar una opcion: ");
+        break;
+    }
+}
+
+void opcMenuVendedorGestAutos(char* dniTitular, int opc){
+    int subOpc;
+
+    switch(opc){
+    case 1:
+        system("cls");
+        printMenuVendedorVistaAutos();
+        subOpc = scanInt();
+        while(!esEnteroPositivo(subOpc)){
+            printf("Error: La opcion que ha ingresado no es valida.\nVuelva a ingresar una opcion: ");
+            subOpc = scanInt();
+        }
+        opcMenuVendedorVistaAutos(subOpc);
+        break;
+    case 2:
+        limpiarPantalla();
+        printf("\t\t\tINSERION DE DATOS DE AUTOS\n");
+        printf("\t---------------------------------------------------------------------\n");
+        insertarAutos(dniTitular);
+        limpiarPantalla();
+        break;
+    case 0:
+        printf("\nVolviendo...\n");
+        break;
+    default:
+        printf("\nError: La opcion que ha ingresado no es valida.\nVuelva a ingresar una opcion: ");
+        break;
+    }
+}
+
+void opcMenuVendedorVistaAutos(int opc){
+    AutoDinamico autoDin = pasarArchivoAutosAlArregloDinamico();
+
+    switch(opc){
+    case 1:
+        system("cls");
+        mostrarTodosLosAutosDelSistema(autoDin, 0);
+        system("pause");
+        break;
+    case 2:
+
+        break;
+    case 0:
+        printf("\nVolviendo...\n");
+        break;
+    default:
+        printf("\nError: La opcion que ha ingresado no es valida.\nVuelva a ingresar una opcion: ");
+        break;
+    }
+
+    liberarAutoDinamico(&autoDin);
 }

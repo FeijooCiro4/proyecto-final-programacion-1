@@ -34,8 +34,25 @@
 ### Viernes 13/06/2025
 * Dearrollo de inserción de datos sobre una persona si es que su dni no figura en los datos del archivo.
 * Corrección de errores: 
-    * Validación de dni unico y con digitos exastos.
+    * Validación de dni unico y con digitos exactos.
     * Optimización del registro de sesión acorde a las necesidades de la inserción de personas.
     * Código corregido en el inicio de sesión.
-* Commit y despliegue al repositorio remoto.
+* Commit.
+### Sabado 14/06/2025
+* Planificación y estructuración de la estrucura visual de la experiencia de usuario dividido entre sus roles.
+* Establecimiento de visuales en la cabecera ´prints´ del proyecto.
+### Domingo 15/06/2025
+* Desarrollo de inserción de datos de autos por parte de los usuario vendedores:
+    * Desarrolo de visuales, abstrayendo en distintas funciones de menús.
+    * Creación y desarrollo de una estructura de autos para uso exclusivo de memoria dinamica:
+        * Inicializa un arreglo dinámico de autos.
+        * Redimenciona un arreglo dinámico de autos.
+        * Libera la memoria de un arreglo dinámico de autos.
+    * Creación de un nivel de abstración más profundo denominado ´controllers´, donde se implementará la lógica requerida por los requerimientos del proyecto, los cuales son muy generales como para ser funciones de las estructuras, y muy específicos para el nivel de ´opciones´.
+    * Desarrollo de validación de errores en datos de entrada: Si el vendedor ingresa una patente existente tanto en el archivo el archivo de autos como en el arreglo dinámico de autos, el programa no guardara ese auto ni en el arreglo ni en el archivo, y le indicara al usuario que vuelva a ingresarlo si asi lo desea.
+### Lunes 16/06/2025
+* Desarrollo de muestra de datos de autos para vendedores. En el controlador de autos se implementaron dos funciones: 
+    * Una que retorna un arreglo dinámico de autos.
+    * Otra que recibe uno por parámetro y muestra todos sus datos de forma recursiva (para el titular del auto, se llamó a una función en ´stPersonas.h´ que devuelve el nombre completo de la persona a la que pertenece el dato de ´dniTitular´ de cada auto);
+* Commit.
 <!-- ## Funciones del proyecto.  -->

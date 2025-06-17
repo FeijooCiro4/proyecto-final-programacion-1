@@ -64,3 +64,29 @@ int validarNumeroTelefonoPersona(const char *telefono){
 
     return 1;
 }
+
+char* buscarPersonaPorId(char* archivo, char* dni){
+    FILE* fp = fopen(archivo, "rb");
+
+    if(fp == NULL){
+        perror("Error al abrir el archivo de personas");
+        return "(no se encontro)";
+    }
+
+    Persona per;
+
+    while(fread(&per, sizeof(Persona), 1, fp) == 1){
+        if(strcmp(dni, per.dni) == 0){
+            char *nombreCompleto = malloc(50);
+            strcat(nombreCompleto, per.nombrePersona);
+            strcat(nombreCompleto, " ");
+            strcat(nombreCompleto, per.apellidoPersona);
+
+            fclose(fp);
+            return nombreCompleto;
+        }
+    }
+
+    fclose(fp);
+    return "(no se encontro)";
+}

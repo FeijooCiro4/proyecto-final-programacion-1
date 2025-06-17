@@ -56,6 +56,7 @@ extern bool registroSesion(){
     }
 
     if(dniUnicoPersona(ARCHIVO_PERSONAS, usuario.dniPersona)){
+        printf("-------Sus datos no se encuentran en el sistema-------\n");
         Persona persona = ingresarPersona(ARCHIVO_PERSONAS, usuario.dniPersona);
 
         if(fwrite(&persona, sizeof(Persona), 1, fpPersonas) != 1){

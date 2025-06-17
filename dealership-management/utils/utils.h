@@ -1,15 +1,15 @@
-#ifndef UTILS_H_INCLUDED
-#define UTILS_H_INCLUDED
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
 #include <stdbool.h>
 
+#ifndef UTILS_H_INCLUDED
+#define UTILS_H_INCLUDED
+
 static inline void limpiarBufferDeEntrada(void){
     int c;
-    while(c = getchar() != '\n' && c != EOF);
+    while((c = getchar()) != '\n' && c != EOF);
 }
 
 static inline int confirmar(char condicion){
@@ -28,6 +28,18 @@ static inline int scanInt(void){
     int aux;
 
     if(scanf("%d", &aux) != 1){
+        limpiarBufferDeEntrada();
+        return -1;
+    }
+    limpiarBufferDeEntrada();
+
+    return aux;
+}
+
+static inline float scanFloat(void){
+    float aux;
+
+    if(scanf("%f", &aux) != 1){
         limpiarBufferDeEntrada();
         return -1;
     }
