@@ -1,40 +1,44 @@
 #include <stdio.h>
 #include <string.h>
 #include "ctrAuto.h"
-#include "../utils/utils.h"
-#include "../structs/persona/stPersona.h"
+#include "../../utils/utils.h"
+#include "../persona/ctrPersona.h"
 
-#define VALOR_REDIMENSIONAMIENTO_AUTO 5
+#define VALOR_REDIMENSIONAMIENTO_AUTO 2
 
 static const char* ARCHIVO_PERSONAS = "personas.bin";
 static const char* ARCHIVO_AUTOS = "autos.bin";
 
 void insertarAutos(char* dniTitular){
+    FILE* fp = fopen(ARCHIVO_AUTOS, "ab");
+
+    int indice = 0;
     Auto autoAux;
     AutoDinamico autoDin;
     inicializarAutoDinamico(&autoDin, VALOR_REDIMENSIONAMIENTO_AUTO);
 
     do{
         verificarRedimensionAutoDinamico(&autoDin);
+        printf("Dimension total: %d\nValidos: %d\n", autoDin.dimencion, autoDin.validos);
 
         autoAux = ingresarAuto(dniTitular);
 
         if((datosDeAutoValidosArchivo(autoAux, ARCHIVO_AUTOS)) && (datosDeAutoValidosArreglo(autoAux, autoDin))){
-            autoDin.arrayAuto[autoDin.validos] = autoAux;
+            autoDin.arrayAuto[indice] = autoAux;
             autoDin.validos++;
+            indice++;
         }
 
         printf("\nDesea seguir ingresando datos? (s/n)");
     }while(confirmar('s'));
 
-    FILE* fp = fopen(ARCHIVO_AUTOS, "ab");
 
     if(fp == NULL){
         perror("Error al abrir el archivo de autos");
         return;
     }
 
-    if((autoDin.validos == 0) || (fwrite(autoDin.arrayAuto, autoDin.validos*sizeof(Auto), autoDin.validos, fp) != autoDin.validos)){
+    if((indice == 0) || (fwrite(autoDin.arrayAuto, sizeof(Auto), indice, fp) != indice)){
         perror("Error al escribir los datos del arreglo dinamico de autos en el archivo de autos");
         fclose(fp);
         return;
@@ -86,14 +90,15 @@ void mostrarTodosLosAutosDelSistema(AutoDinamico autoDin, int indice){
 }
 
 AutoDinamico pasarArchivoAutosAlArregloDinamico(void){
-    AutoDinamico autoDin;
-    inicializarAutoDinamico(&autoDin, VALOR_REDIMENSIONAMIENTO_AUTO);
-
     FILE* fp = fopen(ARCHIVO_AUTOS, "rb");
+
+    AutoDinamico autoDin;
+    size_t dimensionAutos = dimencionDeUnArchivo(fp) / sizeof(Auto);
+    inicializarAutoDinamico(&autoDin, dimensionAutos);
 
     if(fp == NULL){
         perror("Error al abrir el archivo de autos");
-        return ;
+        return autoDin;
     }
 
     Auto autoAuxiliar;
@@ -105,4 +110,25 @@ AutoDinamico pasarArchivoAutosAlArregloDinamico(void){
     }
 
     return autoDin;
+}
+
+void buscarUnAutoEnElSistema(AutoDinamico autoDin, char* patenteBuscar){
+    for(int i=0; i<autoDin.validos; i++){
+        if(strcmp(patenteBuscar, autoDin.arrayAuto[i].patente) == 0){
+            printf("\nTitular: %s\n", buscarPersonaPorId(ARCHIVO_PERSONAS, autoDin.arrayAuto[i].dniTitular));
+            mostrarUnAuto(autoDin.arrayAuto[i]);
+            return;
+        }
+    }
+
+    printf("\nLa patente ingresada no erttenece a ningun auto registrado en el sistema.\n");
+}
+
+void mostrarAutosDeUnVendedor(AutoDinamico autoDin, char* dniTitular){
+    for(int i=0; i<autoDin.validos; i++){
+        if(strcmp(autoDin.arrayAuto[i].dniTitular, dniTitular) == 0){
+            printf("Titular: %s\n", buscarPersonaPorId(ARCHIVO_PERSONAS, autoDin.arrayAuto[i].dniTitular));
+            mostrarUnAuto(autoDin.arrayAuto[i]);
+        }
+    }
 }

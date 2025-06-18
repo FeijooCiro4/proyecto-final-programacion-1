@@ -4,7 +4,7 @@
 #include "../utils/utils.h"
 #include "../login/login.h"
 #include "../prints/prints.h"
-#include "../controllers/ctrAuto.h"
+#include "../controllers/auto/ctrAuto.h"
 #include "../structs/auto/stAutoDinamico.h"
 
 bool opcLogin(Usuario *us, int opc){
@@ -69,14 +69,16 @@ void opcMenuVendedorGestAutos(char* dniTitular, int opc){
 
     switch(opc){
     case 1:
-        system("cls");
-        printMenuVendedorVistaAutos();
-        subOpc = scanInt();
-        while(!esEnteroPositivo(subOpc)){
-            printf("Error: La opcion que ha ingresado no es valida.\nVuelva a ingresar una opcion: ");
+        do{
+           system("cls");
+            printMenuVendedorVistaAutos();
             subOpc = scanInt();
-        }
-        opcMenuVendedorVistaAutos(subOpc);
+            while(!esEnteroPositivo(subOpc)){
+                printf("Error: La opcion que ha ingresado no es valida.\nVuelva a ingresar una opcion: ");
+                subOpc = scanInt();
+            }
+            opcMenuVendedorVistaAutos(dniTitular, subOpc);
+        } while(subOpc != 0);
         break;
     case 2:
         limpiarPantalla();
@@ -94,7 +96,7 @@ void opcMenuVendedorGestAutos(char* dniTitular, int opc){
     }
 }
 
-void opcMenuVendedorVistaAutos(int opc){
+void opcMenuVendedorVistaAutos(char* dniTitular, int opc){
     AutoDinamico autoDin = pasarArchivoAutosAlArregloDinamico();
 
     switch(opc){
@@ -104,7 +106,19 @@ void opcMenuVendedorVistaAutos(int opc){
         system("pause");
         break;
     case 2:
+        system("cls");
+        char patente[20];
 
+        printf("Ingrese la patente del auto que quiere buscar: ");
+        scanString(patente, 20);
+
+        buscarUnAutoEnElSistema(autoDin, patente);
+        system("pause");
+        break;
+    case 3:
+        system("cls");
+        mostrarAutosDeUnVendedor(autoDin, dniTitular);
+        system("pause");
         break;
     case 0:
         printf("\nVolviendo...\n");

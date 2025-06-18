@@ -4,7 +4,6 @@
 #ifndef LOGIN_H_INCLUDED
 #define LOGIN_H_INCLUDED
 
-
 extern bool iniciarSesion(Usuario *us);
 extern bool registroSesion(void);
 

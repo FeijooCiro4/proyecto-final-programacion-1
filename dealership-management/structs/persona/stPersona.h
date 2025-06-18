@@ -12,9 +12,4 @@ typedef struct stPersona {
 	char ciudad[MAX_CARACT_PERSONA_STANDARD];
 } Persona;
 
-Persona ingresarPersona(char* archivo, const char* dniRegistrado);
-int dniUnicoPersona(char* archivo, const char *dni);
-int validarNumeroTelefonoPersona(const char *telefono);
-char* buscarPersonaPorId(char* archivo, char* dni);
-
 #endif // STPERSONA_H_INCLUDED

@@ -14,11 +14,6 @@ typedef struct stUsuario {
 } Usuario;
 
 Usuario inicializarUsuario(void);
-Usuario ingresarUsuario(char* archivo);
-int idUsuarioUnico(char* archivo, int id);
-int nombreUsuarioUnico(char* archivo, char* nombre);
-int validarContrasenia(char* archivo, char* nombreUsuario, char* contrasenia);
-Usuario buscarUsuario(char* archivo, char* nombreUsuario);
 char* nombreRolUsuario(Usuario us);
 
 #endif // STUSUARIO_H_INCLUDED

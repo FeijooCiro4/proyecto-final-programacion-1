@@ -1,7 +1,7 @@
 #include <malloc.h>
 #include "stAutoDinamico.h"
 
-#define VALOR_DIMENSIONAMIENTO_AUTODINAMICO 5
+#define VALOR_DIMENSIONAMIENTO_AUTODINAMICO 2
 
 void inicializarAutoDinamico(AutoDinamico* autoDin, int valorDimension){
     autoDin->dimencion = valorDimension;
@@ -21,6 +21,7 @@ void verificarRedimensionAutoDinamico(AutoDinamico* autoDin){
 
     autoDin->arrayAuto = (Auto*)realloc(autoDin->arrayAuto, (autoDin->dimencion + VALOR_DIMENSIONAMIENTO_AUTODINAMICO) * sizeof(Auto));
     autoDin->dimencion += VALOR_DIMENSIONAMIENTO_AUTODINAMICO;
+    printf("\n-----------------Redimencionamiento del arreglo-----------------\n");
 }
 
 void liberarAutoDinamico(AutoDinamico* autoDin){

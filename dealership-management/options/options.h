@@ -9,7 +9,7 @@ bool opcLogin(Usuario *us, int opc);
 
 void opcMenuVendedor(char* dniTitular, int opc);
 void opcMenuVendedorGestAutos(char* dniTitular, int opc);
-void opcMenuVendedorVistaAutos(int opc);
+void opcMenuVendedorVistaAutos(char* dniTitular, int opc);
 
 
 #endif // OPTIONS_H_INCLUDED

@@ -58,5 +58,6 @@ static inline char scanChar(void){
 int esEnteroPositivo(int num);
 int scanString(char* cadena, int maxCaract);
 bool esDniValido(const char* dni);
+size_t dimencionDeUnArchivo(FILE* fp);
 
 #endif // UTILS_H_INCLUDED

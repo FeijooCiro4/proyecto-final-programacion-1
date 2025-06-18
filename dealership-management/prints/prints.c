@@ -34,9 +34,10 @@ void printMenuVendedorGestAutos(){
 void printMenuVendedorVistaAutos(){
     printf("GESTION DE VISTAS DE AUTOS\n"
            "\t1. Ver todos los autos en el sistema.\n"
-           /*"\t2. Ver un auto.\n"
-           "\t3. Ver autos vendidos.\n"
-           "\t4. Ver autos con meonos de 10 anios de antiguedad en orden.\n"*/
+           "\t2. Ver un auto.\n"
+           "\t3. Ver autos puestos a la venta por usted.\n"
+           /*"\t4. Ver autos vendidos.\n"
+           "\t5. Ver autos con meonos de 10 anios de antiguedad en orden.\n"*/
            "\t0. Salir. \n"
            "Ingrese una opcion: ");
 }

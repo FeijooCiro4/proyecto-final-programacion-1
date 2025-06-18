@@ -39,8 +39,10 @@ int main(){
                     opcMenuVendedor(us.dniPersona, opcMenu);
                 } else if(us.rol == 'c'){
                     printf("\t\t\t\nPestania no disponble.\n");
+                    opcMenu = 0;
                 } else if(us.rol == 'a'){
                     printf("\t\t\t\nPestania no disponble.\n");
+                    opcMenu = 0;
                 }
 
                 limpiarPantalla();

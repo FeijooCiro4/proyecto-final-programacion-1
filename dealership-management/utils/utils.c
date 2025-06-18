@@ -36,3 +36,10 @@ bool esDniValido(const char* dni){
 
     return true;
 }
+
+size_t dimencionDeUnArchivo(FILE* fp){
+    fseek(fp, 0, SEEK_END);
+    size_t resultado = ftell(fp);
+    fseek(fp, 0, SEEK_SET);
+    return resultado;
+}

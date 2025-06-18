@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include "login.h"
 #include "../utils/utils.h"
-#include "../structs/persona/stPersona.h"
+#include "../controllers/usuario/ctrUsuario.h"
+#include "../controllers/persona/ctrPersona.h"
 
 static const char* ARCHIVO_USUARIOS = "usuarios.bin";
 static const char* ARCHIVO_PERSONAS = "personas.bin";
