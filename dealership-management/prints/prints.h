@@ -9,6 +9,8 @@ void printLogin(void);
 void printMenuVendedor(void);
 void printMenuVendedorGestAutos(void);
 void printMenuVendedorVistaAutos(void);
+void printMenuVendedorGestVentas(void);
+void printMenuVendedorVistaVentas(void);
 
 /*void printMenuComprador(void);
 void printMenuCompradorGestAutos(void);

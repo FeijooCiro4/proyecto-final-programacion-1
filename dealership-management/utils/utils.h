@@ -59,5 +59,7 @@ int esEnteroPositivo(int num);
 int scanString(char* cadena, int maxCaract);
 bool esDniValido(const char* dni);
 size_t dimencionDeUnArchivo(FILE* fp);
+//char* identificarMesDelAnio(int mes);
+int anioAnteriorAlActual(int anio);
 
 #endif // UTILS_H_INCLUDED

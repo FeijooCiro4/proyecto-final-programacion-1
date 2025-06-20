@@ -6,7 +6,7 @@
 typedef struct stAutoDinamico
 {
     Auto* arrayAuto;
-    int dimencion;
+    int dimension;
     int validos;
 } AutoDinamico;
 

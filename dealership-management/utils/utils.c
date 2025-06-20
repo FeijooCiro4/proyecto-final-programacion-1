@@ -1,3 +1,4 @@
+#include <time.h>
 #include "utils.h"
 
 int esEnteroPositivo(int num){
@@ -42,4 +43,65 @@ size_t dimencionDeUnArchivo(FILE* fp){
     size_t resultado = ftell(fp);
     fseek(fp, 0, SEEK_SET);
     return resultado;
+}
+
+/*char* identificarMesDelAnio(int mes){
+    char nombreMes[20];
+
+    switch(mes){
+    case 1:
+        strcpy(nombreMes, "Enero");
+        break;
+    case 2:
+        strcpy(nombreMes, "Febrero");
+        break;
+    case 3:
+        strcpy(nombreMes, "Marzo");
+        break;
+    case 4:
+        strcpy(nombreMes, "Abril");
+        break;
+    case 5:
+        strcpy(nombreMes, "Mayo");
+        break;
+    case 6:
+        strcpy(nombreMes, "Junio");
+        break;
+    case 7:
+        strcpy(nombreMes, "Julio");
+        break;
+    case 8:
+        strcpy(nombreMes, "Agosto");
+        break;
+    case 9:
+        strcpy(nombreMes, "Septiembre");
+        break;
+    case 10:
+        strcpy(nombreMes, "Octubre");
+        break;
+    case 11:
+        strcpy(nombreMes, "Noviembre");
+        break;
+    case 12:
+        strcpy(nombreMes, "Diciembre");
+        break;
+    default:
+        strcpy(nombreMes, "(Error)");
+        break;
+    }
+
+    return nombreMes;
+}*/
+
+int anioAnteriorAlActual(int anio){
+    time_t tiempoActual = time(NULL);
+    struct tm *tiempoLocal = localtime(&tiempoActual);
+
+    int anioActual = tiempoLocal->tm_year + 1900;
+
+    if(anio<=anioActual && anio>=1900){
+        return 1;
+    }
+
+    return 0;
 }

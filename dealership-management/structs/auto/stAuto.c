@@ -15,17 +15,26 @@ Auto ingresarAuto(char* dniTitular){
 
     printf("Ingrese el anio de fabricacion: ");
     varAuto.anio = scanInt();
-    while(!esEnteroPositivo(varAuto.anio)) varAuto.anio = scanInt();
+    while(!esEnteroPositivo(varAuto.anio) || !anioAnteriorAlActual(varAuto.anio)){
+        printf("El anio ingresado no es valido. Ingrese otro: ");
+        varAuto.anio = scanInt();
+    }
 
     printf("Ingrese el kilometraje: ");
     varAuto.kms = scanInt();
-    while(!esEnteroPositivo(varAuto.kms)) varAuto.kms = scanInt();
+    while(!esEnteroPositivo(varAuto.kms)){
+        printf("El kilometraje ingresado no es valido. Ingrese otro: ");
+        varAuto.kms = scanInt();
+    }
 
     strcpy(varAuto.dniTitular, dniTitular);
 
     printf("Ingrese el precio de adquisicion: ");
     varAuto.precioDeAdquisicion = scanFloat();
-    while(!esEnteroPositivo((int)varAuto.precioDeAdquisicion)) varAuto.precioDeAdquisicion = scanFloat();
+    while(!esEnteroPositivo((int)varAuto.precioDeAdquisicion)){
+        printf("El precio de asquisicion ingresado no es valido. Ingrese otro: ");
+        varAuto.precioDeAdquisicion = scanFloat();
+    }
 
     return varAuto;
 }

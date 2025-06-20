@@ -5,7 +5,9 @@
 #include "../login/login.h"
 #include "../prints/prints.h"
 #include "../controllers/auto/ctrAuto.h"
+#include "../controllers/venta/ctrVenta.h"
 #include "../structs/auto/stAutoDinamico.h"
+#include "../structs/venta/stVentaDinamica.h"
 
 bool opcLogin(Usuario *us, int opc){
     bool val=false;
@@ -53,6 +55,18 @@ void opcMenuVendedor(char* dniTitular, int opc){
                 subOpc = scanInt();
             }
             opcMenuVendedorGestAutos(dniTitular, subOpc);
+        } while(subOpc != 0);
+        break;
+    case 2:
+        do{
+            system("cls");
+            printMenuVendedorGestVentas();
+            subOpc = scanInt();
+            while(!esEnteroPositivo(subOpc)){
+                printf("Error: La opcion que ha ingresado no es valida.\nVuelva a ingresar una opcion: ");
+                subOpc = scanInt();
+            }
+            opcMenuVendedorGestVentas(dniTitular, subOpc);
         } while(subOpc != 0);
         break;
     case 0:
@@ -122,6 +136,7 @@ void opcMenuVendedorVistaAutos(char* dniTitular, int opc){
         break;
     case 0:
         printf("\nVolviendo...\n");
+        limpiarPantalla();
         break;
     default:
         printf("\nError: La opcion que ha ingresado no es valida.\nVuelva a ingresar una opcion: ");
@@ -129,4 +144,68 @@ void opcMenuVendedorVistaAutos(char* dniTitular, int opc){
     }
 
     liberarAutoDinamico(&autoDin);
+}
+
+void opcMenuVendedorGestVentas(char* dniVendedor, int opc){
+    int subOpc;
+
+    switch(opc){
+    case 1:
+        do{
+           system("cls");
+            printMenuVendedorVistaVentas();
+            subOpc = scanInt();
+            while(!esEnteroPositivo(subOpc)){
+                printf("Error: La opcion que ha ingresado no es valida.\nVuelva a ingresar una opcion: ");
+                subOpc = scanInt();
+            }
+            opcMenuVendedorVistaVentas(dniVendedor, subOpc);
+        } while(subOpc != 0);
+        break;
+        break;
+    case 2:
+        limpiarPantalla();
+        printf("\t\t\tINSERION DE DATOS DE VENTAS\n");
+        printf("\t---------------------------------------------------------------------\n");
+        ingresarVentas(dniVendedor);
+        limpiarPantalla();
+        break;
+    case 0:
+        printf("\nVolviendo...\n");
+        break;
+    default:
+        printf("\nError: La opcion que ha ingresado no es valida.\nVuelva a ingresar una opcion: ");
+        break;
+    }
+}
+
+void opcMenuVendedorVistaVentas(char* dniVendedor, int opc){
+    VentaDinamica ventaDin = pasarArchivoVentasAlArregloDinamico(dniVendedor);
+
+    switch(opc){
+    case 1:
+        system("cls");
+        mostrarTodasLasVentasDelSistema(ventaDin, 0);
+        system("pause");
+        break;
+    case 2:
+        system("cls");
+        int idBuscar;
+
+        printf("Ingrese el numero de ID de la venta que quiere buscar: ");
+        idBuscar = scanInt();
+
+        buscarUnaVentaEnElSistema(ventaDin, idBuscar);
+        system("pause");
+        break;
+    case 0:
+        printf("\nVolviendo...\n");
+        limpiarPantalla();
+        break;
+    default:
+        printf("\nError: La opcion que ha ingresado no es valida.\nVuelva a ingresar una opcion: ");
+        break;
+    }
+
+    liberarVentaDinamica(&ventaDin);
 }

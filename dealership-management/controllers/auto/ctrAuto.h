@@ -12,4 +12,9 @@ AutoDinamico pasarArchivoAutosAlArregloDinamico(void);
 void buscarUnAutoEnElSistema(AutoDinamico autoDin, char* patenteBuscar);
 void mostrarAutosDeUnVendedor(AutoDinamico autoDin, char* dniTitular);
 
+int existeIdAutoDeUnVendedorEnArchivo(const char* archivo, char* patenteAuto, char* dniVendeor);
+Auto* retornarAutoDeArchivo(const char* archivo, char* patenteAuto);
+
+void modificarTitularAuto(const char* archivo, Auto* autoCambiar, char* dniNuevoTitular);
+
 #endif // CTRAUTO_H_INCLUDED
