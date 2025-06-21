@@ -31,10 +31,22 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
-		<Unit filename="controllers/ctrAuto.c">
+		<Unit filename="controllers/auto/ctrAuto.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="controllers/ctrAuto.h" />
+		<Unit filename="controllers/auto/ctrAuto.h" />
+		<Unit filename="controllers/persona/ctrPersona.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="controllers/persona/ctrPersona.h" />
+		<Unit filename="controllers/usuario/ctrUsuario.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="controllers/usuario/ctrUsuario.h" />
+		<Unit filename="controllers/venta/ctrVenta.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="controllers/venta/ctrVenta.h" />
 		<Unit filename="login/login.c">
 			<Option compilerVar="CC" />
 		</Unit>
@@ -58,16 +70,30 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="structs/auto/stAutoDinamico.h" />
+		<Unit filename="structs/fecha/stFecha.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="structs/fecha/stFecha.h" />
 		<Unit filename="structs/persona/stPersona.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="structs/persona/stPersona.h" />
+		<Unit filename="structs/persona/stPersonaDinamica.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="structs/persona/stPersonaDinamica.h" />
 		<Unit filename="structs/usuario/stUsuario.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="structs/usuario/stUsuario.h" />
+		<Unit filename="structs/venta/stVenta.c">
+			<Option compilerVar="CC" />
+		</Unit>
 		<Unit filename="structs/venta/stVenta.h" />
+		<Unit filename="structs/venta/stVentaDinamica.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="structs/venta/stVentaDinamica.h" />
 		<Unit filename="utils/utils.c">
 			<Option compilerVar="CC" />
 		</Unit>

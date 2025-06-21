@@ -8,5 +8,7 @@ int idUsuarioUnico(const char* archivo, int id);
 int nombreUsuarioUnico(const char* archivo, char* nombre);
 int validarContrasenia(const char* archivo, char* nombreUsuario, char* contrasenia);
 Usuario buscarUsuario(const char* archivo, char* nombreUsuario);
+Usuario buscarUsuarioPorDni(char* dniUsuario);
+int cantidadDeCuentasPorDni(char* dni);
 
 #endif // CTRUSUARIO_H_INCLUDED

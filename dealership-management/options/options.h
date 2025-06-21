@@ -13,5 +13,8 @@ void opcMenuVendedorVistaAutos(char* dniTitular, int opc);
 void opcMenuVendedorGestVentas(char* dniVendedor, int opc);
 void opcMenuVendedorVistaVentas(char* dniVendedor, int opc);
 
+void opcMenuComprador(int opc);
+void opcMenuCompradorVistaAutos(int opc);
+void opcMenuCompradorVistaVendedores(int opc);
 
 #endif // OPTIONS_H_INCLUDED

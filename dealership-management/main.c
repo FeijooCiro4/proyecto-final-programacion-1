@@ -16,7 +16,7 @@ int main(){
             opcLog = scanInt();
         }
         loginValido = opcLogin(&us, opcLog);
-        //if(loginValido) opcLog = 0;
+
         if(loginValido){
             int opcMenu;
 
@@ -38,8 +38,15 @@ int main(){
 
                     opcMenuVendedor(us.dniPersona, opcMenu);
                 } else if(us.rol == 'c'){
-                    printf("\t\t\t\nPestania no disponble.\n");
-                    opcMenu = 0;
+                    printMenuComprador();
+
+                    opcMenu = scanInt();
+                    while(esEnteroPositivo(opcMenu) == 0){
+                        printf("Error: La opcion que ha ingresado no es valida.\nVuelva a ingresar una opcion: ");
+                        opcMenu = scanInt();
+                    }
+
+                    opcMenuComprador(opcMenu);
                 } else if(us.rol == 'a'){
                     printf("\t\t\t\nPestania no disponble.\n");
                     opcMenu = 0;

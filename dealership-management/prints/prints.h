@@ -12,9 +12,10 @@ void printMenuVendedorVistaAutos(void);
 void printMenuVendedorGestVentas(void);
 void printMenuVendedorVistaVentas(void);
 
-/*void printMenuComprador(void);
-void printMenuCompradorGestAutos(void);
+void printMenuComprador(void);
+void printMenuCompradorVistaAutos(void);
+void printMenuCompradorVistaVendedores(void);
 
-void printMenuAdmin(void);*/
+/*void printMenuAdmin(void);*/
 
 #endif // PRINTS_H_INCLUDED

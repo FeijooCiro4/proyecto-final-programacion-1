@@ -221,3 +221,26 @@ Auto* retornarAutoDeArchivo(const char* archivo, char* patenteAuto){
     fclose(fp);
     return NULL;
 }
+
+void mostrarAutosVendidosPorVendedor(AutoDinamico autoDin, char* dniVendedor){
+    FILE* fp = fopen(ARCHIVO_VENTAS, "rb");
+
+    if(fp == NULL){
+        perror("Error al abrir el archivo de ventas");
+        return;
+    }
+
+    Venta ventaArchivo;
+
+    while(fread(&ventaArchivo, sizeof(Venta), 1, fp) == 1){
+        for(int i=0; i<autoDin.validos; i++){
+            if((strcmp(ventaArchivo.dniVendedor, dniVendedor) == 0) && (strcmp(ventaArchivo.patenteAutoVendido, autoDin.arrayAuto[i].patente) == 0)){
+                printf("Propietario: %s\n", buscarPersonaPorId(ARCHIVO_PERSONAS, autoDin.arrayAuto[i].dniTitular));
+                mostrarUnAuto(autoDin.arrayAuto[i]);
+                break;
+            }
+        }
+    }
+
+    fclose(fp);
+}

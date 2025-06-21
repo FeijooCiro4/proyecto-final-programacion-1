@@ -6,8 +6,11 @@
 #include "../prints/prints.h"
 #include "../controllers/auto/ctrAuto.h"
 #include "../controllers/venta/ctrVenta.h"
+#include "../controllers/usuario/ctrUsuario.h"
+#include "../controllers/persona/ctrPersona.h"
 #include "../structs/auto/stAutoDinamico.h"
 #include "../structs/venta/stVentaDinamica.h"
+#include "../structs/persona/stPersonaDinamica.h"
 
 bool opcLogin(Usuario *us, int opc){
     bool val=false;
@@ -134,6 +137,10 @@ void opcMenuVendedorVistaAutos(char* dniTitular, int opc){
         mostrarAutosDeUnVendedor(autoDin, dniTitular);
         system("pause");
         break;
+    case 4:
+        system("cls");
+        mostrarAutosVendidosPorVendedor(autoDin, dniTitular);
+        system("pause");
     case 0:
         printf("\nVolviendo...\n");
         limpiarPantalla();
@@ -208,4 +215,103 @@ void opcMenuVendedorVistaVentas(char* dniVendedor, int opc){
     }
 
     liberarVentaDinamica(&ventaDin);
+}
+
+void opcMenuComprador(int opc){
+    int subOpc;
+
+    switch(opc){
+    case 1:
+        do{
+            system("cls");
+            printMenuCompradorVistaAutos();
+            subOpc = scanInt();
+            while(!esEnteroPositivo(subOpc)){
+                printf("Error: La opcion que ha ingresado no es valida.\nVuelva a ingresar una opcion: ");
+                subOpc = scanInt();
+            }
+            opcMenuCompradorVistaAutos(subOpc);
+        } while(subOpc != 0);
+        break;
+    case 2:
+        do{
+            system("cls");
+            printMenuCompradorVistaVendedores();
+            subOpc = scanInt();
+            while(!esEnteroPositivo(subOpc)){
+                printf("Error: La opcion que ha ingresado no es valida.\nVuelva a ingresar una opcion: ");
+                subOpc = scanInt();
+            }
+            opcMenuCompradorVistaVendedores(subOpc);
+        } while(subOpc != 0);
+        break;
+    case 0:
+        printf("\nCerrando sesion...\n");
+        break;
+    default:
+        printf("\nError: La opcion que ha ingresado no es valida.\nVuelva a ingresar una opcion: ");
+        break;
+    }
+}
+
+void opcMenuCompradorVistaAutos(int opc){
+    AutoDinamico autoDin = pasarArchivoAutosAlArregloDinamico();
+
+    switch(opc){
+    case 1:
+        system("cls");
+        mostrarTodosLosAutosDelSistema(autoDin, 0);
+        system("pause");
+        break;
+    case 2:
+        system("cls");
+        char patente[20];
+
+        printf("Ingrese la patente del auto que quiere buscar: ");
+        scanString(patente, 20);
+
+        buscarUnAutoEnElSistema(autoDin, patente);
+        system("pause");
+        break;
+    case 0:
+        printf("\nVolviendo...\n");
+        limpiarPantalla();
+        break;
+    default:
+        printf("\nError: La opcion que ha ingresado no es valida.\nVuelva a ingresar una opcion: ");
+        break;
+    }
+
+    liberarAutoDinamico(&autoDin);
+}
+
+void opcMenuCompradorVistaVendedores(int opc){
+    PersonaDinamica personaDin = pasarArchivoPesonasAlArreglo('v');
+
+    switch(opc){
+    case 1:
+        system("cls");
+        mostrarTodasLasPersonas(personaDin, 0);
+        system("pause");
+        break;
+    case 2:
+        system("cls");
+        char nombre[30];
+
+        printf("Ingrese el nombre del vendedor que quiere buscar: ");
+        scanString(nombre, 30);
+
+        buscarPersonaEnArreglo(personaDin, nombre);
+        system("pause");
+        break;
+    case 0:
+        printf("\nVolviendo...\n");
+        limpiarPantalla();
+        break;
+    default:
+        printf("\nError: La opcion que ha ingresado no es valida.\nVuelva a ingresar una opcion: ");
+        break;
+    }
+
+    liberarPersonaDinamica(&personaDin);
 }

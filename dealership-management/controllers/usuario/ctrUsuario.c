@@ -4,6 +4,8 @@
 #include "ctrUsuario.h"
 #include "../../utils/utils.h"
 
+static const char* ARCHIVO_USUARIOS= "usuarios.bin";
+
 Usuario ingresarUsuario(const char* archivo){
     Usuario us;
 
@@ -123,4 +125,45 @@ Usuario buscarUsuario(const char* archivo, char* nombreUsuario){
 
     fclose(fp);
     return usAux;
+}
+
+Usuario buscarUsuarioPorDni(char* dniUsuario){
+    FILE* fp = fopen(ARCHIVO_USUARIOS, "rb");
+    Usuario usAux = inicializarUsuario();
+
+    if(fp == NULL){
+        perror("Error al abrir el archivo de usuarios");
+        return usAux;
+    }
+
+    while(fread(&usAux, sizeof(Usuario), 1, fp) == 1){
+        if(strcmp(usAux.dniPersona, dniUsuario) == 0){
+            fclose(fp);
+            return usAux;
+        }
+    }
+
+    fclose(fp);
+    return usAux;
+}
+
+int cantidadDeCuentasPorDni(char* dni){
+    FILE* fp = fopen(ARCHIVO_USUARIOS, "rb");
+
+    if(fp == NULL){
+        perror("Error al abrir el archivo de usuarios");
+        return -1;
+    }
+
+    Usuario usuarioArchivo;
+    int contador=0;
+
+    while(fread(&usuarioArchivo, sizeof(Usuario), 1, fp) == 1){
+        if(strcmp(usuarioArchivo.dniPersona, dni) == 0){
+            contador++;
+        }
+    }
+
+    fclose(fp);
+    return contador;
 }

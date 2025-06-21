@@ -12,4 +12,6 @@ typedef struct stPersona {
 	char ciudad[MAX_CARACT_PERSONA_STANDARD];
 } Persona;
 
+void mostrarUnaPersona(Persona personaMostrar);
+
 #endif // STPERSONA_H_INCLUDED

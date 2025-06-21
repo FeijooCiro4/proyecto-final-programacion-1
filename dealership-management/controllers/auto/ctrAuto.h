@@ -17,4 +17,6 @@ Auto* retornarAutoDeArchivo(const char* archivo, char* patenteAuto);
 
 void modificarTitularAuto(const char* archivo, Auto* autoCambiar, char* dniNuevoTitular);
 
+void mostrarAutosVendidosPorVendedor(AutoDinamico autoDin, char* dniVendedor);
+
 #endif // CTRAUTO_H_INCLUDED

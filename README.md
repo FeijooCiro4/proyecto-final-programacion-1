@@ -95,4 +95,14 @@
         * En `mostrarTodosLosAutosDelSistema()` no se podrán visualizar aquellos autos que se encuentren vendidos.
         * Al buscar un auto y mostrarlo, no se tomará en cuenta aquellos que estén vendidos. Por lo que si el usuario ingresa una patente de un auto vendido, los datos de este no se mostrarán.
 * Commit y despliegue al repositorio remoto.
+### Viernes 20/06/2025
+* Se ha desarrollado la opción para vendedores de ver los autos vendidos junto con sus titulares.
+* Se ha desarrollado gran parte de la experiencia de usuario para compradores:
+    * Vista de varios autos: Cada comprador puede ver la lista completa de todos los autos a la venta por distintos vendedors
+    * Vista de un auto: El usuario comprador puede visualizar los datos de un solo auto (puesto a la venta) ingresando su patente.
+    * Vista de varios vendedores: El comprador puede ver la lista de vendedores en el sistema, pudiendo ver sus numeros de telefono para contactare con ellos.
+    * Vista de un vendedor: El comprador puede buscar por nombr a un solo vendedor, y podrá visualizar sus datos (esta función necesita pulirse conceptualmente, ya que si el usuario ingresa un nombre y resulta que el dato del nombre dentro del archivo de personas hay un nombre más a parte del buscado, este no se tomará en cuenta y la funión lo ignorará como si no fuera válido. Sin embargo, si el nombre buscado está presnte en dos vendedres distintos, se mostrarán a ambos como resultado de la búsqueda).
+    * Para desarrollar lo anterior, se requirió implementar el uso arreglos dinámicos para guardar los datos de las personas (buscadas a traves de su dni, sacado del archivo de personas, en el archivo de usuarios con el rol de vendedores) para luego mostrar los datos de los vendedores que están en el sistema.
+    También se requirió desarrollar las funciones de muestra, basadas en una función base de `stPersona` para implementar una función recursiva que recorra todo un arreglo dinámico de personas para mostrar aquellas con el rol de vendedor en un usuario.
+* Commit.
 <!-- ## Funciones del proyecto.  -->

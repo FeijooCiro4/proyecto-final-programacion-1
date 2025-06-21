@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <string.h>
 #include "ctrPersona.h"
+#include "../usuario/ctrUsuario.h"
 #include "../../utils/utils.h"
+
+static const char* ARCHIVO_PERSONAS = "personas.bin";
 
 Persona ingresarPersona(const char* archivo, const char* dniRegistrado){
     Persona per;
@@ -88,5 +91,57 @@ char* buscarPersonaPorId(const char* archivo, char* dni){
     }
 
     fclose(fp);
-    return "(no se encontro)";
+    return "(datos de persona no encontrados en el sistema)";
+}
+
+PersonaDinamica pasarArchivoPesonasAlArreglo(char rol){
+    PersonaDinamica personaDin;
+    inicializarPersonaDinamica(&personaDin, 2);
+
+    FILE* fp = fopen(ARCHIVO_PERSONAS, "rb");
+
+    if(fp == NULL){
+        perror("Error al abrir el archivo de personas");
+        return personaDin;
+    }
+
+    Persona personaArchivo;
+
+    while(fread(&personaArchivo, sizeof(Persona), 1, fp) == 1){
+        int cantCuentas = cantidadDeCuentasPorDni(personaArchivo.dni);
+
+        if(cantCuentas > 0){
+            Usuario us = buscarUsuarioPorDni(personaArchivo.dni);
+
+            if(us.rol == rol){
+                redimencionarPersonaDinamica(&personaDin);
+
+                personaDin.arrayPersona[personaDin.validos] = personaArchivo;
+                personaDin.validos++;
+            }
+        }
+    }
+
+    fclose(fp);
+    return personaDin;
+}
+
+void mostrarTodasLasPersonas(PersonaDinamica personaDin, int indice){
+    if(indice < personaDin.validos){
+        mostrarUnaPersona(personaDin.arrayPersona[indice]);
+        mostrarTodasLasPersonas(personaDin, indice+1);
+    }
+}
+
+void buscarPersonaEnArreglo(PersonaDinamica personaDin, char* nombreBuscar){
+    int contadorMuestra = 0;
+
+    for(int i=0; i<personaDin.validos; i++){
+        if(strcmp(personaDin.arrayPersona[i].nombrePersona, nombreBuscar) == 0){
+            mostrarUnaPersona(personaDin.arrayPersona[i]);
+            contadorMuestra++;
+        }
+    }
+
+    if(contadorMuestra == 0) printf("El nombre ingresado no pertenece a ningun vendedor");
 }
