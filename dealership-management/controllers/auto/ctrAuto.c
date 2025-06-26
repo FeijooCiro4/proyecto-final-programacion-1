@@ -8,9 +8,7 @@
 
 #define VALOR_REDIMENSIONAMIENTO_AUTO 2
 
-static const char* ARCHIVO_PERSONAS = "personas.bin";
 static const char* ARCHIVO_AUTOS = "autos.bin";
-static const char* ARCHIVO_VENTAS = "ventas.bin";
 
 void insertarAutos(char* dniTitular){
     FILE* fp = fopen(ARCHIVO_AUTOS, "ab");
@@ -26,7 +24,7 @@ void insertarAutos(char* dniTitular){
 
         autoAux = ingresarAuto(dniTitular);
 
-        if((datosDeAutoValidosArchivo(autoAux, ARCHIVO_AUTOS)) && (datosDeAutoValidosArreglo(autoAux, autoDin))){
+        if((datosDeAutoValidosArchivo(autoAux)) && (datosDeAutoValidosArreglo(autoAux, autoDin))){
             autoDin.arrayAuto[indice] = autoAux;
             autoDin.validos++;
             indice++;
@@ -51,8 +49,8 @@ void insertarAutos(char* dniTitular){
     fclose(fp);
 }
 
-int datosDeAutoValidosArchivo(Auto autoIngresado, const char* archivo){
-    FILE* fp = fopen(archivo, "rb");
+int datosDeAutoValidosArchivo(Auto autoIngresado){
+    FILE* fp = fopen(ARCHIVO_AUTOS, "rb");
 
     if(fp == NULL){
         perror("Error al abrir el archivo de autos");
@@ -82,13 +80,21 @@ int datosDeAutoValidosArreglo(Auto autoIngresado, AutoDinamico arregloAutos){
     return 1;
 }
 
-void mostrarTodosLosAutosDelSistema(AutoDinamico autoDin, int indice){
+void mostrarTodosLosAutosALaVenta(AutoDinamico autoDin, int indice){
     if(indice < autoDin.validos){
-        if(!existeIdAutoEnArcivoVentas(ARCHIVO_VENTAS, autoDin.arrayAuto[indice].patente)){
-            printf("Titular: %s\n", buscarPersonaPorId(ARCHIVO_PERSONAS, autoDin.arrayAuto[indice].dniTitular));
+        if(!existeIdAutoEnArchivoVentas(autoDin.arrayAuto[indice].patente)){
+            printf("Titular: %s\n", buscarPersonaPorId(autoDin.arrayAuto[indice].dniTitular));
             mostrarUnAuto(autoDin.arrayAuto[indice]);
         }
-        mostrarTodosLosAutosDelSistema(autoDin, indice+1);
+        mostrarTodosLosAutosALaVenta(autoDin, indice+1);
+    }
+}
+
+void mostrarTodosLosAutosDeUnArreglo(AutoDinamico autoDin, int indice){
+    if(indice < autoDin.validos){
+        printf("Titular: %s\n", buscarPersonaPorId(autoDin.arrayAuto[indice].dniTitular));
+        mostrarUnAuto(autoDin.arrayAuto[indice]);
+        mostrarTodosLosAutosDeUnArreglo(autoDin, indice+1);
     }
 }
 
@@ -112,14 +118,65 @@ AutoDinamico pasarArchivoAutosAlArregloDinamico(){
         autoDin.validos++;
     }
 
+    fclose(fp);
+    return autoDin;
+}
+
+AutoDinamico pasarArchivoAutosALaVentaAlArregloDinamico(void){
+    FILE* fp = fopen(ARCHIVO_AUTOS, "rb");
+
+    AutoDinamico autoDin;
+    inicializarAutoDinamico(&autoDin, 2);
+
+    if(fp == NULL){
+        perror("Error al abrir el archivo de autos");
+        return autoDin;
+    }
+
+    Auto autoAuxiliar;
+
+    while(fread(&autoAuxiliar, sizeof(Auto), 1, fp) == 1){
+        if(!existeIdAutoEnArchivoVentas(autoAuxiliar.patente)){
+            verificarRedimensionAutoDinamico(&autoDin);
+            autoDin.arrayAuto[autoDin.validos] = autoAuxiliar;
+            autoDin.validos++;
+        }
+    }
+
+    fclose(fp);
+    return autoDin;
+}
+
+AutoDinamico pasarArchivoAutosVendidosAlArregloDinamico(void){
+    FILE* fp = fopen(ARCHIVO_AUTOS, "rb");
+
+    AutoDinamico autoDin;
+    inicializarAutoDinamico(&autoDin, 2);
+
+    if(fp == NULL){
+        perror("Error al abrir el archivo de autos");
+        return autoDin;
+    }
+
+    Auto autoAuxiliar;
+
+    while(fread(&autoAuxiliar, sizeof(Auto), 1, fp) == 1){
+        if(existeIdAutoEnArchivoVentas(autoAuxiliar.patente)){
+            verificarRedimensionAutoDinamico(&autoDin);
+            autoDin.arrayAuto[autoDin.validos] = autoAuxiliar;
+            autoDin.validos++;
+        }
+    }
+
+    fclose(fp);
     return autoDin;
 }
 
 void buscarUnAutoEnElSistema(AutoDinamico autoDin, char* patenteBuscar){
     for(int i=0; i<autoDin.validos; i++){
-        if(!existeIdAutoEnArcivoVentas(ARCHIVO_VENTAS, autoDin.arrayAuto[i].patente)){
+        if(!existeIdAutoEnArchivoVentas(autoDin.arrayAuto[i].patente)){
             if(strcmp(patenteBuscar, autoDin.arrayAuto[i].patente) == 0){
-                printf("\nTitular: %s\n", buscarPersonaPorId(ARCHIVO_PERSONAS, autoDin.arrayAuto[i].dniTitular));
+                printf("\nTitular: %s\n", buscarPersonaPorId(autoDin.arrayAuto[i].dniTitular));
                 mostrarUnAuto(autoDin.arrayAuto[i]);
                 return;
             }
@@ -132,14 +189,14 @@ void buscarUnAutoEnElSistema(AutoDinamico autoDin, char* patenteBuscar){
 void mostrarAutosDeUnVendedor(AutoDinamico autoDin, char* dniTitular){
     for(int i=0; i<autoDin.validos; i++){
         if(strcmp(autoDin.arrayAuto[i].dniTitular, dniTitular) == 0){
-            printf("Titular: %s\n", buscarPersonaPorId(ARCHIVO_PERSONAS, autoDin.arrayAuto[i].dniTitular));
+            printf("Titular: %s\n", buscarPersonaPorId(autoDin.arrayAuto[i].dniTitular));
             mostrarUnAuto(autoDin.arrayAuto[i]);
         }
     }
 }
 
-int existeIdAutoDeUnVendedorEnArchivo(const char* archivo, char* patenteAuto, char* dniVendeor){
-    FILE*fp = fopen(archivo, "rb");
+int existeIdAutoDeUnVendedorEnArchivo(char* patenteAuto, char* dniVendeor){
+    FILE*fp = fopen(ARCHIVO_AUTOS, "rb");
 
     if(fp == NULL){
         perror("Error al abrir el archivo de autos");
@@ -161,8 +218,8 @@ int existeIdAutoDeUnVendedorEnArchivo(const char* archivo, char* patenteAuto, ch
     return 0;
 }
 
-void modificarTitularAuto(const char* archivo, Auto* autoCambiar, char* dniNuevoTitular){
-    FILE* fp = fopen(archivo, "r+b");
+void modificarTitularAuto(Auto* autoCambiar, char* dniNuevoTitular){
+    FILE* fp = fopen(ARCHIVO_AUTOS, "r+b");
 
     if(fp == NULL){
         perror("Error al abrir el archivo de autos");
@@ -181,8 +238,6 @@ void modificarTitularAuto(const char* archivo, Auto* autoCambiar, char* dniNuevo
                 perror("No se pudo escribir en el archivo de autos");
             }
 
-            fflush(fp);
-
             fclose(fp);
             return;
         }
@@ -191,8 +246,153 @@ void modificarTitularAuto(const char* archivo, Auto* autoCambiar, char* dniNuevo
     fclose(fp);
 }
 
-Auto* retornarAutoDeArchivo(const char* archivo, char* patenteAuto){
-    FILE* fp = fopen(archivo, "rb");
+void modificarMarcaAuto(char* patente, char* dniTitular, char* marcaNueva){
+    FILE* fp = fopen(ARCHIVO_AUTOS, "r+b");
+
+    if(fp == NULL){
+        perror("Error al abrir el archivo de autos");
+        return;
+    }
+
+    Auto autoAuxiliar;
+
+    while(fread(&autoAuxiliar, sizeof(Auto), 1, fp) == 1){
+        if((strcmp(patente, autoAuxiliar.patente) == 0) && (strcmp(dniTitular, autoAuxiliar.dniTitular) == 0)){
+            strcpy(autoAuxiliar.marca, marcaNueva);
+
+            fseek(fp, -(long)sizeof(Auto), SEEK_CUR);
+
+            if(fwrite(&autoAuxiliar, sizeof(Auto), 1, fp) != 1){
+                perror("No se pudo escribir en el archivo de autos");
+            }
+
+            fclose(fp);
+            return;
+        }
+    }
+
+    fclose(fp);
+    printf("\nNo se pudo cambiar la marca del auto.\n");
+}
+
+void modificarModeloAuto(char* patente, char* dniTitular, char* modeloNuevo){
+    FILE* fp = fopen(ARCHIVO_AUTOS, "r+b");
+
+    if(fp == NULL){
+        perror("Error al abrir el archivo de autos");
+        return;
+    }
+
+    Auto autoAuxiliar;
+
+    while(fread(&autoAuxiliar, sizeof(Auto), 1, fp) == 1){
+        if((strcmp(patente, autoAuxiliar.patente) == 0) && (strcmp(dniTitular, autoAuxiliar.dniTitular) == 0)){
+            strcpy(autoAuxiliar.modelo, modeloNuevo);
+
+            fseek(fp, -(long)sizeof(Auto), SEEK_CUR);
+
+            if(fwrite(&autoAuxiliar, sizeof(Auto), 1, fp) != 1){
+                perror("No se pudo escribir en el archivo de autos");
+            }
+
+            fclose(fp);
+            return;
+        }
+    }
+
+    fclose(fp);
+    printf("\nNo se pudo cambiar el modelo del auto.\n");
+}
+
+void modificarAnioAdqAuto(char* patente, char* dniTitular, int anioAdqNuevo){
+    FILE* fp = fopen(ARCHIVO_AUTOS, "r+b");
+
+    if(fp == NULL){
+        perror("Error al abrir el archivo de autos");
+        return;
+    }
+
+    Auto autoAuxiliar;
+
+    while(fread(&autoAuxiliar, sizeof(Auto), 1, fp) == 1){
+        if((strcmp(patente, autoAuxiliar.patente) == 0) && (strcmp(dniTitular, autoAuxiliar.dniTitular) == 0)){
+            autoAuxiliar.anio = anioAdqNuevo;
+
+            fseek(fp, -(long)sizeof(Auto), SEEK_CUR);
+
+            if(fwrite(&autoAuxiliar, sizeof(Auto), 1, fp) != 1){
+                perror("No se pudo escribir en el archivo de autos");
+            }
+
+            fclose(fp);
+            return;
+        }
+    }
+
+    fclose(fp);
+    printf("\nNo se pudo cambiar el anio de fabricacion/adquisicion del auto.\n");
+}
+
+void modificarKmAuto(char* patente, char* dniTitular, int kmNuevo){
+    FILE* fp = fopen(ARCHIVO_AUTOS, "r+b");
+
+    if(fp == NULL){
+        perror("Error al abrir el archivo de autos");
+        return;
+    }
+
+    Auto autoAuxiliar;
+
+    while(fread(&autoAuxiliar, sizeof(Auto), 1, fp) == 1){
+        if((strcmp(patente, autoAuxiliar.patente) == 0) && (strcmp(dniTitular, autoAuxiliar.dniTitular) == 0)){
+            autoAuxiliar.kms = kmNuevo;
+
+            fseek(fp, -(long)sizeof(Auto), SEEK_CUR);
+
+            if(fwrite(&autoAuxiliar, sizeof(Auto), 1, fp) != 1){
+                perror("No se pudo escribir en el archivo de autos");
+            }
+
+            fclose(fp);
+            return;
+        }
+    }
+
+    fclose(fp);
+    printf("\nNo se pudo cambiar el kilometraje del auto.\n");
+}
+
+void modificarPrecioAdqAuto(char* patente, char* dniTitular, float precioAdqNuevo){
+    FILE* fp = fopen(ARCHIVO_AUTOS, "r+b");
+
+    if(fp == NULL){
+        perror("Error al abrir el archivo de autos");
+        return;
+    }
+
+    Auto autoAuxiliar;
+
+    while(fread(&autoAuxiliar, sizeof(Auto), 1, fp) == 1){
+        if((strcmp(patente, autoAuxiliar.patente) == 0) && (strcmp(dniTitular, autoAuxiliar.dniTitular) == 0)){
+            autoAuxiliar.precioDeAdquisicion = precioAdqNuevo;
+
+            fseek(fp, -(long)sizeof(Auto), SEEK_CUR);
+
+            if(fwrite(&autoAuxiliar, sizeof(Auto), 1, fp) != 1){
+                perror("No se pudo escribir en el archivo de autos");
+            }
+
+            fclose(fp);
+            return;
+        }
+    }
+
+    fclose(fp);
+    printf("\nNo se pudo cambiar el precio de adquisicion del auto.\n");
+}
+
+Auto* retornarAutoDeArchivo(char* patenteAuto){
+    FILE* fp = fopen(ARCHIVO_AUTOS, "rb");
 
     if(fp == NULL){
         perror("Error al abrir el archivo de autos");
@@ -222,25 +422,54 @@ Auto* retornarAutoDeArchivo(const char* archivo, char* patenteAuto){
     return NULL;
 }
 
-void mostrarAutosVendidosPorVendedor(AutoDinamico autoDin, char* dniVendedor){
-    FILE* fp = fopen(ARCHIVO_VENTAS, "rb");
-
-    if(fp == NULL){
-        perror("Error al abrir el archivo de ventas");
-        return;
-    }
-
-    Venta ventaArchivo;
-
-    while(fread(&ventaArchivo, sizeof(Venta), 1, fp) == 1){
-        for(int i=0; i<autoDin.validos; i++){
-            if((strcmp(ventaArchivo.dniVendedor, dniVendedor) == 0) && (strcmp(ventaArchivo.patenteAutoVendido, autoDin.arrayAuto[i].patente) == 0)){
-                printf("Propietario: %s\n", buscarPersonaPorId(ARCHIVO_PERSONAS, autoDin.arrayAuto[i].dniTitular));
-                mostrarUnAuto(autoDin.arrayAuto[i]);
-                break;
+AutoDinamico ordenarArregloDeAutos(AutoDinamico autoDin){
+    for(int i=0; i<autoDin.validos; i++){
+        for(int j=0; j<autoDin.validos; j++){
+            if(autoDin.arrayAuto[i].anio < autoDin.arrayAuto[j].anio){
+                Auto autoAux = autoDin.arrayAuto[i];
+                autoDin.arrayAuto[i] = autoDin.arrayAuto[j];
+                autoDin.arrayAuto[j] = autoAux;
             }
         }
     }
 
+    return autoDin;
+}
+
+void borrarAuto(char* dniTitular, char* patenteAutoBorrar){
+    FILE* fp = fopen(ARCHIVO_AUTOS, "r+b");
+
+    if(fp == NULL){
+        perror("Error al abrir el archivo de autos");
+        return;
+    }
+
+    Auto autoAuxiliar;
+
+    while(fread(&autoAuxiliar, sizeof(Auto), 1, fp) == 1){
+        if((strcmp(patenteAutoBorrar, autoAuxiliar.patente) == 0) && (strcmp(dniTitular, autoAuxiliar.dniTitular) == 0)){
+            strcpy(autoAuxiliar.patente, "Borrado");
+            strcpy(autoAuxiliar.marca, "Borrado");
+            strcpy(autoAuxiliar.modelo, "Borrado");
+            autoAuxiliar.kms = 0;
+            autoAuxiliar.anio = 0;
+            strcpy(autoAuxiliar.dniTitular, "Borrado");
+            autoAuxiliar.precioDeAdquisicion = 0.0;
+
+            fseek(fp, -(long)sizeof(Auto), SEEK_CUR);
+
+            if(fwrite(&autoAuxiliar, sizeof(Auto), 1, fp) != 1){
+                perror("No se pudo escribir en el archivo de autos");
+                fclose(fp);
+                return;
+            }
+
+            printf("\nLos datos han sido eliminados con exito!\n\n");
+            fclose(fp);
+            return;
+        }
+    }
+
     fclose(fp);
+    printf("\nNo se pudo borrar el auto. La patente ingresada es invalida\n");
 }

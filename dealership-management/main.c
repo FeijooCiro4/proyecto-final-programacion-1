@@ -46,8 +46,18 @@ int main(){
                         opcMenu = scanInt();
                     }
 
-                    opcMenuComprador(opcMenu);
+                    opcMenuComprador(us.dniPersona, opcMenu);
                 } else if(us.rol == 'a'){
+                    printMenuAdmin();
+
+                    opcMenu = scanInt();
+                    while(esEnteroPositivo(opcMenu) == 0){
+                        printf("Error: La opcion que ha ingresado no es valida.\nVuelva a ingresar una opcion: ");
+                        opcMenu = scanInt();
+                    }
+
+                    opcMenuAdmin(us.dniPersona, opcMenu);
+                } else {
                     printf("\t\t\t\nPestania no disponble.\n");
                     opcMenu = 0;
                 }

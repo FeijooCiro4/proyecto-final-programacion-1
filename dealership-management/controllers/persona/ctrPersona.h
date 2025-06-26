@@ -3,13 +3,24 @@
 #ifndef CTRPERSONA_H_INCLUDED
 #define CTRPERSONA_H_INCLUDED
 
-Persona ingresarPersona(const char* archivo, const char* dniRegistrado);
-int dniUnicoPersona(const char* archivo, const char *dni);
+Persona ingresarPersona(const char* dniRegistrado);
+void guardarPersonaEnArchivo(Persona* personaGuardar);
+int dniUnicoPersona(const char *dni);
 int validarNumeroTelefonoPersona(const char *telefono);
-char* buscarPersonaPorId(const char* archivo, char* dni);
+char* buscarPersonaPorId(char* dni);
 
 PersonaDinamica pasarArchivoPesonasAlArreglo(char rol);
+PersonaDinamica pasarArchivoTodasLasPesonasAlArreglo(void);
 void mostrarTodasLasPersonas(PersonaDinamica personaDin, int indice);
 void buscarPersonaEnArreglo(PersonaDinamica personaDin, char* nombreBuscar);
+void pasarArchivoPesonasAlArregloPorId(PersonaDinamica* personaDin, char* dni);
+int esUsarioVendedor(char* dniBuscar);
+int buscarPersonaEnArregloPorDni(PersonaDinamica personaDin, char* dniBuscar);
+void mostrarUnaPersonaPorDni(char* dniBuscar);
+
+void modificarNombrePersona(char* dniPersona, char* nombreNuevo);
+void modificarApellidoPersona(char* dniPersona, char* apellidoNuevo);
+void modificarCiudadPersona(char* dniPersona, char* ciudadNueva);
+void modificarTelefonoPersona(char* dniPersona, char* telefonoNuevo);
 
 #endif // CTRPERSONA_H_INCLUDED

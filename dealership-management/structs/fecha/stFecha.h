@@ -9,6 +9,8 @@ typedef struct stFecha {
 
 Fecha ingresarUnaFecha(void);
 Fecha fechaActual(void);
+Fecha inicializarFecha(void);
+Fecha asignarFecha(int anio, int mes, int dia);
 int esAnioBisiesto(int anio);
 int cantMaximaDeDiasPorMes(int mes, int esAnioBisiesto);
 int validarFecha(Fecha fechaIngresada);

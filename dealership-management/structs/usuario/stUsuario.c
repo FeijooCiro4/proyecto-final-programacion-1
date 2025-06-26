@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "stUsuario.h"
 
 Usuario inicializarUsuario(void){
@@ -18,8 +19,17 @@ char* nombreRolUsuario(Usuario us){
     } else if (us.rol == 'v'){
         return "vendedor";
     } else if (us.rol == 'a'){
-        return "admin";
+        return "administrador";
     }
 
     return "desconosido";
+}
+
+void mostrarUnUsuario(Usuario us){
+    printf("Id: %d\n"
+           "\tNombre de Usuario: %s\n"
+           "\tRol: %s\n",
+           us.idUsuario,
+           us.nombreUsuario,
+           nombreRolUsuario(us));
 }

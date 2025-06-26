@@ -21,7 +21,6 @@ void verificarRedimensionAutoDinamico(AutoDinamico* autoDin){
 
     autoDin->arrayAuto = (Auto*)realloc(autoDin->arrayAuto, (autoDin->dimension + VALOR_DIMENSIONAMIENTO_AUTODINAMICO) * sizeof(Auto));
     autoDin->dimension += VALOR_DIMENSIONAMIENTO_AUTODINAMICO;
-    printf("\n-----------------Redimencionamiento del arreglo-----------------\n");
 }
 
 void liberarAutoDinamico(AutoDinamico* autoDin){

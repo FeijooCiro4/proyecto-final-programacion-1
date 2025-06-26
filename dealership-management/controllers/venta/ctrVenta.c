@@ -2,12 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include "ctrVenta.h"
+#include "../../structs/fecha/stFecha.h"
 #include "../../utils/utils.h"
 #include "../persona/ctrPersona.h"
 #include "../auto/ctrAuto.h"
 
-static const char* ARCHIVO_PERSONAS = "personas.bin";
-static const char* ARCHIVO_AUTOS = "autos.bin";
 static const char* ARCHIVO_VENTAS = "ventas.bin";
 
 void ingresarVentas(char* dniVendedor){
@@ -29,16 +28,16 @@ void ingresarVentas(char* dniVendedor){
 
         ventaAux = ingresarUnaVenta(dniVendedor);
 
-        if(idVentaUnicoArchivo(ARCHIVO_VENTAS, ventaAux.idVenta) && idVentaUnicoArreglo(ventaDin, ventaAux.idVenta)){
-            if(existeIdAutoDeUnVendedorEnArchivo(ARCHIVO_AUTOS, ventaAux.patenteAutoVendido, ventaAux.dniVendedor)){
-                if(!existeIdAutoEnArcivoVentas(ARCHIVO_VENTAS, ventaAux.patenteAutoVendido)){
-                    Auto* autoVendido = retornarAutoDeArchivo(ARCHIVO_AUTOS, ventaAux.patenteAutoVendido);
+        if(idVentaUnicoArchivo(ventaAux.idVenta) && idVentaUnicoArreglo(ventaDin, ventaAux.idVenta)){
+            if(existeIdAutoDeUnVendedorEnArchivo(ventaAux.patenteAutoVendido, ventaAux.dniVendedor)){
+                if(!existeIdAutoEnArchivoVentas(ventaAux.patenteAutoVendido)){
+                    Auto* autoVendido = retornarAutoDeArchivo(ventaAux.patenteAutoVendido);
                     ventaAux.ganancia = ventaAux.precioVenta - autoVendido->precioDeAdquisicion;
 
                     if(ventaAux.ganancia >= 0){
                         if(ventaAux.fecha.anio >= autoVendido->anio){
-                            if(autoVendido != NULL) modificarTitularAuto(ARCHIVO_AUTOS, autoVendido, ventaAux.dniComprador);
-                            if(dniUnicoPersona(ARCHIVO_PERSONAS, ventaAux.dniComprador)){
+                            if(autoVendido != NULL) modificarTitularAuto(autoVendido, ventaAux.dniComprador);
+                            if(dniUnicoPersona(ventaAux.dniComprador)){
                                 printf("Advertencia: Los datos de este comprador no estan en el sistema.\n"
                                        "Los datos de la venta seran guardados, pero al ver estos mismos no podra ver el nombre del comprador.\n");
                             }
@@ -77,8 +76,8 @@ void ingresarVentas(char* dniVendedor){
     fclose(fp);
 }
 
-int idVentaUnicoArchivo(const char* archivo, int idIngresado){
-    FILE* fp = fopen(archivo, "rb");
+int idVentaUnicoArchivo(int idIngresado){
+    FILE* fp = fopen(ARCHIVO_VENTAS, "rb");
 
     if(fp == NULL){
         perror("Error al abrir el archivo de ventas");
@@ -108,12 +107,12 @@ int idVentaUnicoArreglo(VentaDinamica ventaDin, int idIngresado){
     return 1;
 }
 
-int existeIdAutoEnArcivoVentas(const char* archivo, char* patenteAuto){
-    FILE* fp = fopen(archivo, "rb");
+int existeIdAutoEnArchivoVentas(char* patenteAuto){
+    FILE* fp = fopen(ARCHIVO_VENTAS, "rb");
 
     if(fp == NULL){
         perror("Error al abrir el archivo de ventas");
-        return 1;
+        return 0;
     }
 
     Venta ventaAuxiliar;
@@ -127,6 +126,30 @@ int existeIdAutoEnArcivoVentas(const char* archivo, char* patenteAuto){
 
     fclose(fp);
     return 0;
+}
+
+VentaDinamica pasarArchivoTodasLasVentasAlArregloDinamico(){
+    FILE* fp = fopen(ARCHIVO_VENTAS, "rb");
+
+    VentaDinamica ventaDin;
+    size_t tamanioArchivo = dimencionDeUnArchivo(fp) / sizeof(Venta);
+    inicializarVentaDinamica(&ventaDin, tamanioArchivo);
+
+    if(fp == NULL){
+        perror("Error al abrir el archivo de ventas");
+        return ventaDin;
+    }
+
+    int indice = 0;
+    Venta ventaArchivo;
+
+    while(fread(&ventaArchivo, sizeof(Venta), 1, fp) == 1){
+        ventaDin.arrayVenta[indice] = ventaArchivo;
+        ventaDin.validos++;
+        indice++;
+    }
+
+    return ventaDin;
 }
 
 VentaDinamica pasarArchivoVentasAlArregloDinamico(char* dniVendedor){
@@ -162,6 +185,29 @@ void mostrarTodasLasVentasDelSistema(VentaDinamica ventaDin, int indice){
     }
 }
 
+void mostrarAutosVendidosPorVendedor(AutoDinamico autoDin, char* dniVendedor){
+    FILE* fp = fopen(ARCHIVO_VENTAS, "rb");
+
+    if(fp == NULL){
+        perror("Error al abrir el archivo de ventas");
+        return;
+    }
+
+    Venta ventaArchivo;
+
+    while(fread(&ventaArchivo, sizeof(Venta), 1, fp) == 1){
+        for(int i=0; i<autoDin.validos; i++){
+            if((strcmp(ventaArchivo.dniVendedor, dniVendedor) == 0) && (strcmp(ventaArchivo.patenteAutoVendido, autoDin.arrayAuto[i].patente) == 0)){
+                printf("Propietario: %s\n", buscarPersonaPorId(autoDin.arrayAuto[i].dniTitular));
+                mostrarUnAuto(autoDin.arrayAuto[i]);
+                break;
+            }
+        }
+    }
+
+    fclose(fp);
+}
+
 void buscarUnaVentaEnElSistema(VentaDinamica ventaDin, int idBuscar){
     for(int i=0; i<ventaDin.validos; i++){
         if((idBuscar == ventaDin.arrayVenta[i].idVenta)){
@@ -170,5 +216,118 @@ void buscarUnaVentaEnElSistema(VentaDinamica ventaDin, int idBuscar){
         }
     }
 
-    printf("\nEl ID ingresado no pertenece ninguna venta realizada por usted.\n");
+    printf("\nEl ID ingresado no pertenece a ninguna venta realizada por usted.\n");
+}
+
+float calcularMargenGananciaMensual(VentaDinamica ventaDin, int anio, int mes, int dia, int indice){
+    float gananciaTotal = 0;
+    Fecha fecha = asignarFecha(anio, mes, dia);
+
+    if(indice < ventaDin.validos){
+        if(fecha.anio == 0 || fecha.mes == 0 || fecha.dia == 0){
+            return 0;
+        } else if((ventaDin.arrayVenta[indice].fecha.anio == fecha.anio) && (ventaDin.arrayVenta[indice].fecha.mes == fecha.mes)){
+            if(ventaDin.arrayVenta[indice].fecha.dia == fecha.dia){
+                gananciaTotal += ventaDin.arrayVenta[indice].ganancia;
+                return gananciaTotal += calcularMargenGananciaMensual(ventaDin, anio, mes, 1, indice+1);
+            } else {
+                return gananciaTotal += calcularMargenGananciaMensual(ventaDin, anio, mes, dia+1, indice);
+            }
+        } else {
+            return gananciaTotal += calcularMargenGananciaMensual(ventaDin, anio, mes, 1, indice+1);
+        }
+    }
+
+    return gananciaTotal;
+}
+
+int calcularMargenDeGananciaMasAlto(VentaDinamica ventaDin){
+    int gananciaMasAlta = ventaDin.arrayVenta[0].ganancia;
+    int indiceGananciaAlta;
+
+    for(int i=0; i<ventaDin.validos; i++){
+        if(gananciaMasAlta < ventaDin.arrayVenta[i].ganancia){
+            gananciaMasAlta = ventaDin.arrayVenta[i].ganancia;
+            indiceGananciaAlta = i;
+        }
+    }
+
+    return indiceGananciaAlta;
+}
+
+void pasarClientesArregloPersonas(PersonaDinamica* personaDin, VentaDinamica ventaDin){
+    for(int i=0; i<ventaDin.validos; i++){
+        int flag = 1;
+        for(int j=0; j<personaDin->validos; j++){
+            if(strcmp(personaDin->arrayPersona[j].dni, ventaDin.arrayVenta[i].dniComprador) == 0) flag = 0;
+        }
+        if(flag) pasarArchivoPesonasAlArregloPorId(personaDin, ventaDin.arrayVenta[i].dniComprador);
+    }
+}
+
+int ventasDeUnCliente(VentaDinamica* ventasCliente, char* dniCliente){
+    FILE* fp = fopen(ARCHIVO_VENTAS, "rb");
+    int flag = 0;
+
+    if(fp == NULL){
+        perror("Error al abrir el archivo de ventas");
+        return flag;
+    }
+
+    Venta ventaArchivo;
+
+    while(fread(&ventaArchivo, sizeof(Venta), 1, fp) == 1){
+        if(strcmp(ventaArchivo.dniComprador,dniCliente) == 0){
+            verificarRedimensionVentaDinamica(ventasCliente);
+            ventasCliente->arrayVenta[ventasCliente->validos] = ventaArchivo;
+            ventasCliente->validos += 1;
+            flag = 1;
+        }
+    }
+
+    fclose(fp);
+    return flag;
+}
+
+void borrarVenta(char* dniVendedor, int idVentaEliminar){
+    FILE* fp = fopen(ARCHIVO_VENTAS, "r+b");
+
+    if(fp == NULL){
+        perror("Error al abrir el archivo de ventas");
+        return;
+    }
+
+    Venta ventaArchivo;
+
+    while(fread(&ventaArchivo, sizeof(Venta), 1, fp) == 1){
+        if((ventaArchivo.idVenta == idVentaEliminar) && (strcmp(ventaArchivo.dniVendedor, dniVendedor) == 0)){
+            Auto* autoVendido = retornarAutoDeArchivo(ventaArchivo.patenteAutoVendido);
+            modificarTitularAuto(autoVendido, dniVendedor);
+
+            ventaArchivo.idVenta = 0;
+            strcpy(ventaArchivo.dniVendedor, "Borrado");
+            strcpy(ventaArchivo.dniComprador, "Borrado");
+            strcpy(ventaArchivo.patenteAutoVendido, "Borrado");
+            ventaArchivo.precioVenta = 0.0;
+            ventaArchivo.ganancia = 0.0;
+            ventaArchivo.fecha.anio = 0;
+            ventaArchivo.fecha.mes = 0;
+            ventaArchivo.fecha.dia = 0;
+
+            fseek(fp, -(long)sizeof(Venta), SEEK_CUR);
+
+            if(fwrite(&ventaArchivo, sizeof(Venta), 1, fp) != 1){
+                perror("No se pudo escribir en el archivo de ventas");
+                fclose(fp);
+                return;
+            }
+
+            printf("\n\tVenta borrada con exito!\n\n");
+            fclose(fp);
+            return;
+        }
+    }
+
+    printf("\nNo se encontro la venta buscada.\n");
+    fclose(fp);
 }

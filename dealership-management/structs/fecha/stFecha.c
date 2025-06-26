@@ -42,6 +42,38 @@ Fecha fechaActual(){
     return fecha;
 }
 
+Fecha inicializarFecha(){
+    Fecha fecha;
+
+    fecha.anio = 0;
+    fecha.mes = 0;
+    fecha.dia = 0;
+
+    return fecha;
+}
+
+Fecha asignarFecha(int anio, int mes, int dia){
+    Fecha fecha = inicializarFecha();
+
+    if(anio < 1900){
+        return fecha;
+    }
+
+    if(mes > 12 || mes < 1){
+        return fecha;
+    }
+
+    if(dia > cantMaximaDeDiasPorMes(mes, esAnioBisiesto(anio)) || dia < 1) {
+        return fecha;
+    }
+
+    fecha.anio = anio;
+    fecha.mes = mes;
+    fecha.dia = dia;
+
+    return fecha;
+}
+
 int esAnioBisiesto(int anio){
     int flag = 0;
 

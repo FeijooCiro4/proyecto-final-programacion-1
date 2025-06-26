@@ -11,11 +11,21 @@ void printMenuVendedorGestAutos(void);
 void printMenuVendedorVistaAutos(void);
 void printMenuVendedorGestVentas(void);
 void printMenuVendedorVistaVentas(void);
+void printMenuVendedorGestEstadisticas(void);
 
 void printMenuComprador(void);
 void printMenuCompradorVistaAutos(void);
 void printMenuCompradorVistaVendedores(void);
 
-/*void printMenuAdmin(void);*/
+void printMenuAdmin(void);
+void printMenuAdminGestAutos(void);
+void printMenuAdminVistaAutos(void);
+void printMenuAdminGestUsuarios(void);
+void printMenuAdminVistaUsuarios(void);
+void printMenuAdminGestVentas(void);
+void printMenuAdminVistaVentas(void);
+
+void printMenuModificarDatosPesonales(void);
+void printMenuModificarAutos(void);
 
 #endif // PRINTS_H_INCLUDED

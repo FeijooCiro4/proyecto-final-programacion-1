@@ -45,53 +45,49 @@ size_t dimencionDeUnArchivo(FILE* fp){
     return resultado;
 }
 
-/*char* identificarMesDelAnio(int mes){
-    char nombreMes[20];
-
+char* identificarMesDelAnio(int mes){
     switch(mes){
     case 1:
-        strcpy(nombreMes, "Enero");
+        return "Enero";
         break;
     case 2:
-        strcpy(nombreMes, "Febrero");
+        return "Febrero";
         break;
     case 3:
-        strcpy(nombreMes, "Marzo");
+        return "Marzo";
         break;
     case 4:
-        strcpy(nombreMes, "Abril");
+        return "Abril";
         break;
     case 5:
-        strcpy(nombreMes, "Mayo");
+        return "Mayo";
         break;
     case 6:
-        strcpy(nombreMes, "Junio");
+        return "Junio";
         break;
     case 7:
-        strcpy(nombreMes, "Julio");
+        return "Julio";
         break;
     case 8:
-        strcpy(nombreMes, "Agosto");
+        return "Agosto";
         break;
     case 9:
-        strcpy(nombreMes, "Septiembre");
+        return "Septiembre";
         break;
     case 10:
-        strcpy(nombreMes, "Octubre");
+        return "Octubre";
         break;
     case 11:
-        strcpy(nombreMes, "Noviembre");
+        return "Noviembre";
         break;
     case 12:
-        strcpy(nombreMes, "Diciembre");
+        return "Diciembre";
         break;
     default:
-        strcpy(nombreMes, "(Error)");
+        return "(Error)";
         break;
     }
-
-    return nombreMes;
-}*/
+}
 
 int anioAnteriorAlActual(int anio){
     time_t tiempoActual = time(NULL);

@@ -9,11 +9,13 @@ typedef struct stUsuario {
     int idUsuario;
 	char nombreUsuario[MAX_CARACT_USUARIO_STANDARD];
 	char contrasenia[MAX_CARACT_USUARIO_STANDARD];
-	char rol; //c = comprador o v = vendedor o a = administrador
+	char rol;
 	char dniPersona[MAX_CARACT_USUARIO_DNI];
+	int permisoDeIngreso;
 } Usuario;
 
 Usuario inicializarUsuario(void);
 char* nombreRolUsuario(Usuario us);
+void mostrarUnUsuario(Usuario us);
 
 #endif // STUSUARIO_H_INCLUDED
