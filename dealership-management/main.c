@@ -1,8 +1,8 @@
 #include <stdio.h>
-#include "options/options.h"
-#include "prints/prints.h"
-#include "utils/utils.h"
-#include "structs/usuario/stUsuario.h"
+#include "View/options/options.h"
+#include "View/prints/prints.h"
+#include "View/utils/utils.h"
+#include "Model/structs/usuario/stUsuario.h"
 
 int main(){
     int opcLog, loginValido;
@@ -17,9 +17,25 @@ int main(){
         }
         loginValido = opcLogin(&us, opcLog);
 
-        if(loginValido){
-            int opcMenu;
+        int opcMenu;
 
+        if(opcLog == 3){
+            do {
+                printf("---------------------------------------------------------------------\n");
+                printf("\t\tBienvenido usuario anonimo!");
+                printf("\n---------------------------------------------------------------------\n");
+
+                printMenuUsuarioGeneral();
+
+                opcMenu = scanInt();
+                while(esEnteroPositivo(opcMenu) == 0){
+                    printf("Error: La opcion que ha ingresado no es valida.\nVuelva a ingresar una opcion: ");
+                    opcMenu = scanInt();
+                }
+
+                opcMenuUsuarioGeneral(opcMenu);
+            } while(opcMenu != 0);
+        } else if(loginValido && opcLog != 3){
             limpiarPantalla();
 
             do {
@@ -37,16 +53,6 @@ int main(){
                     }
 
                     opcMenuVendedor(us.dniPersona, opcMenu);
-                } else if(us.rol == 'c'){
-                    printMenuComprador();
-
-                    opcMenu = scanInt();
-                    while(esEnteroPositivo(opcMenu) == 0){
-                        printf("Error: La opcion que ha ingresado no es valida.\nVuelva a ingresar una opcion: ");
-                        opcMenu = scanInt();
-                    }
-
-                    opcMenuComprador(us.dniPersona, opcMenu);
                 } else if(us.rol == 'a'){
                     printMenuAdmin();
 
